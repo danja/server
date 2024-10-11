@@ -26,6 +26,8 @@ rsync -av /home/danny/Music /space/music-desktop_rsync-2024/
 rsync -av /home/danny/Pictures /space/pictures-desktop_rsync-2024/
 rsync -av /home/danny/Videos /space/videos-desktop_rsync-2024/
 
+rsync -av /home/danny/github-danny /space/github-danny_rsync-2024/
+
 ### Patriot stick
 rsync -av /home/danny/Documents /media/danny/stuff/documents-desktop-rsync-2024/
 rsync -av /home/danny/BACKUP /media/danny/stuff/data-dumps_rsync-2024/
