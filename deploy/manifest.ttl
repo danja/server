@@ -5,13 +5,17 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix : <http://purl.org/stuff/transmissions/> .
 
-<http://hyperdata.it/server/space> a :Space ;
+:pp a :TransmissionsGraph ;
+    rdfs:label "Provolone Piccante" ;
+    :includes (:serverPostcraft :transmissionsPostcraft) .
+
+:serverPostcraft a :ProjectProjection ;
   rdfs:label "server";
       :app :postcraft;
       :defPath "../server/docs/postcraft"; # definition path
       :targetPath "../server/2024/server" .
 
-<http://hyperdata.it/transmissions/space> a :Space ;
+:transmissionsPostcraft a :ProjectProjection ;
   rdfs:label "transmissions";
       :app :postcraft;
       :defPath "../transmission/docs/postcraft"; # definition path
