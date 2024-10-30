@@ -1,0 +1,101 @@
+<!-- POST CONTENT TEMPLATE -->
+<p class="post-title">
+    <a href="entries/2024-10-30_deploy.html">
+        Deploy Postcrafts
+    </a>
+</p>
+<article class="post-content">
+    <h1>Deploy Postcrafts</h1>
+<p>I wound up #:yak shaving for a <em>proper</em> deployment (#:transmissions submodules etc), but for #:pivot:spooky target tomorrow, I just want something quick &amp; dirty. I&#39;ve a fair idea about what I want, but it&#39;s mostly in my head right now. <em>Make it so...</em></p>
+<p>For now, just have a script build the #:postcrafts individually, but have them target the proper destinations via their manifests.</p>
+<p>I also need a <em>common</em> location for postcraft layout - nunjuck templates, css &amp; js etc. (later things like menus, search etc). Also one or two instances of those - minimal baseline for projects, mini-minimal for <em>partials</em>.  </p>
+<p>While I&#39;m doing this, I need to bear in mind some of the <em>next steps</em> - creating Turtle descriptions of content etc.</p>
+<p>Concrete things (using gfm syntax to force myself to tick) :</p>
+<ul>
+<li><input disabled="" type="checkbox"> runner script</li>
+<li><input disabled="" type="checkbox"> targeted manifests</li>
+<li><input disabled="" type="checkbox"> base layout for (full) instances</li>
+<li><input disabled="" type="checkbox"> base layout for partials</li>
+</ul>
+<p>#:todo #:postcraft #:ns terminology : add &#39;instances&#39; and &#39;partials&#39;</p>
+<p>Tree for new stuff on server (as located on office machine) :</p>
+<pre><code class="language-sh">~/github-danny/server$ tree 2024
+2024
+├── common
+├── danny.ayers.name
+│   └── irl
+├── elfquake.org
+├── hyperdata.it
+│   ├── partials
+│   │   └── vocbench-explore
+│   └── postcrafts
+│       ├── server
+│       └── transmissions
+└── strandz.it
+</code></pre>
+<p>*&#39;irl&#39; there is already cruft, but I&#39;ll leave it as a note-to-self to put my projects in there&#39;</p>
+<p>Ready for a couple of <em>full</em> installs :</p>
+<pre><code>/home/danny/github-danny/transmissions/docs/postcraft
+/home/danny/github-danny/server/docs/postcraft
+</code></pre>
+<p>and a <em>partial</em> :</p>
+<pre><code>/home/danny/github-danny/hyperdata/workspaces/hyperdata/articles/vocbench-explore
+</code></pre>
+<p>First the dirty script (<code>/home/danny/github-danny/server/deploy/deploy.sh</code>)</p>
+<pre><code class="language-sh">cd ~/github-danny/transmissions
+
+./trans postcraft ../server/docs/postcraft # typical
+./trans postcraft docs/postcraft # for transmissions, it&#39;s already in the root dir
+./trans postcraft ../hyperdata/docs/postcraft # contains the partial
+</code></pre>
+<p>Weird, the last one of those breaks with:</p>
+<pre><code class="language-sh">TypeError: Cannot create property &#39;counter&#39; on string &#39;progressive-scraper&#39;
+    at DirWalker.emitThem (file:///home/danny/github-danny/transmissions/src/processors/fs/DirWalker.js:54:25)
+</code></pre>
+<p>Ok, to push them towards the right destination, let me have a look at the <code>manifest.ttl</code> for each of those.</p>
+<p>ew, <code>/home/danny/github-danny/server/docs/postcraft/manifest.ttl</code>, copied from the current version in use at <code>danny.ayers.name</code> is <em>pug-fucking-ugly</em>!! (Henceforth, <strong>#:pfugly</strong>)</p>
+<p>Oh, maybe not too bad :</p>
+<pre><code class="language-turtle"># POST PAGES
+t:PostPages a pc:ContentGroup ;
+    pc:site &lt;https://danny.ayers.name&gt; ;
+    fs:targetDirectory &quot;public/entries&quot; ;
+    pc:template &quot;layouts/mediocre/templates/entry-page_template.njk&quot; .
+</code></pre>
+<blockquote>
+<p>Funny, I&#39;ve a vague memory of asking on one of the lists about block comments in Turtle (or maybe even N3, in the Apochelonos Era). I believe <a href="https://www.w3.org/People/Berners-Lee/">timbl</a> responded by words to the effect of : &quot;if it&#39;s long enough to need more than a line, then it&#39;s worth expressing in the RDF itself&quot;. Ok, but right now I want to comment out a big block in this manifest, see if anything breaks. I guess that&#39;s a UI thing.</p>
+</blockquote>
+<p>#:todo implement block comment UI for Turtle in VSCode/#:hyperdata-desktop #:yak</p>
+<hr>
+<p>/home/danny/github-danny/foaf-retro</p>
+<pre><code class="language-sh">cd ~/github-danny/transmissions/
+./trans postcraft ../postcraft/danny.ayers.name
+</code></pre>
+<pre><code class="language-sh"> ./trans ../server/deploy
+</code></pre>
+<pre><code>find ~/github-danny -name content-raw
+
+/home/danny/github-danny/elfquake/transmissions/docs/postcraft/content-raw
+/home/danny/github-danny/elfquake/docs/postcraft/content-raw
+/home/danny/github-danny/postcraft/postcraft-template/content-raw
+/home/danny/github-danny/postcraft/danny.ayers.name/content-raw
+/home/danny/github-danny/postcraft/docs/postcraft/content-raw
+/home/danny/github-danny/trans-apps/docs/postcraft/content-raw
+/home/danny/github-danny/transmissions/docs/postcraft/content-raw
+/home/danny/github-danny/transmissions/docs/postcraft/content-raw/to-sort/postcraft\_\_/content-raw
+/home/danny/github-danny/sparqlpress/docs/postcraft/content-raw
+/home/danny/github-danny/foaf-retro/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/ns/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/farelo/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/tbox/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/open-world-interface/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/kia/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/hyperdata-desktop/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/progressive-scraper/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/sheltopusik/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/server/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/docs/postcraft/content-raw
+/home/danny/github-danny/server/docs/postcraft/content-raw
+</code></pre>
+
+</article>
+<em>2024-10-30</em>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
+        <link rel="stylesheet" href="css/grid-columns.css" type="text/css"/>
+        <link rel="stylesheet" href="css/style.css" type="text/css"/>
+        <title>Deploy Postcrafts</title>
+    </head>
+    <!-- POST PAGE TEMPLATE -->
+    <body>
+        <header id="entry-header">
+            <h1>
+                
+            </h1>
+        </header>
+        <!-- POST CONTENT TEMPLATE -->
+<p class="post-title">
+    <a href="entries/2024-10-30_deploy.html">
+        Deploy Postcrafts
+    </a>
+</p>
+<article class="post-content">
+    <h1>Deploy Postcrafts</h1>
+<p>I wound up #:yak shaving for a <em>proper</em> deployment (#:transmissions submodules etc), but for #:pivot:spooky target tomorrow, I just want something quick &amp; dirty. I&#39;ve a fair idea about what I want, but it&#39;s mostly in my head right now. <em>Make it so...</em></p>
+<p>For now, just have a script build the #:postcrafts individually, but have them target the proper destinations via their manifests.</p>
+<p>I also need a <em>common</em> location for postcraft layout - nunjuck templates, css &amp; js etc. (later things like menus, search etc). Also one or two instances of those - minimal baseline for projects, mini-minimal for <em>partials</em>.  </p>
+<p>While I&#39;m doing this, I need to bear in mind some of the <em>next steps</em> - creating Turtle descriptions of content etc.</p>
+<p>Concrete things (using gfm syntax to force myself to tick) :</p>
+<ul>
+<li><input disabled="" type="checkbox"> runner script</li>
+<li><input disabled="" type="checkbox"> targeted manifests</li>
+<li><input disabled="" type="checkbox"> base layout for (full) instances</li>
+<li><input disabled="" type="checkbox"> base layout for partials</li>
+</ul>
+<p>#:todo #:postcraft #:ns terminology : add &#39;instances&#39; and &#39;partials&#39;</p>
+<p>Tree for new stuff on server (as located on office machine) :</p>
+<pre><code class="language-sh">~/github-danny/server$ tree 2024
+2024
+├── common
+├── danny.ayers.name
+│   └── irl
+├── elfquake.org
+├── hyperdata.it
+│   ├── partials
+│   │   └── vocbench-explore
+│   └── postcrafts
+│       ├── server
+│       └── transmissions
+└── strandz.it
+</code></pre>
+<p>*&#39;irl&#39; there is already cruft, but I&#39;ll leave it as a note-to-self to put my projects in there&#39;</p>
+<p>Ready for a couple of <em>full</em> installs :</p>
+<pre><code>/home/danny/github-danny/transmissions/docs/postcraft
+/home/danny/github-danny/server/docs/postcraft
+</code></pre>
+<p>and a <em>partial</em> :</p>
+<pre><code>/home/danny/github-danny/hyperdata/workspaces/hyperdata/articles/vocbench-explore
+</code></pre>
+<p>First the dirty script :</p>
+<p> let me have a look at the <code>manifest.ttl</code> for each of those.</p>
+<hr>
+<p>/home/danny/github-danny/foaf-retro</p>
+<pre><code class="language-sh">cd ~/github-danny/transmissions/
+./trans postcraft ../postcraft/danny.ayers.name
+</code></pre>
+<pre><code class="language-sh"> ./trans ../server/deploy
+</code></pre>
+<pre><code>find ~/github-danny -name content-raw
+
+/home/danny/github-danny/elfquake/transmissions/docs/postcraft/content-raw
+/home/danny/github-danny/elfquake/docs/postcraft/content-raw
+/home/danny/github-danny/postcraft/postcraft-template/content-raw
+/home/danny/github-danny/postcraft/danny.ayers.name/content-raw
+/home/danny/github-danny/postcraft/docs/postcraft/content-raw
+/home/danny/github-danny/trans-apps/docs/postcraft/content-raw
+/home/danny/github-danny/transmissions/docs/postcraft/content-raw
+/home/danny/github-danny/transmissions/docs/postcraft/content-raw/to-sort/postcraft\_\_/content-raw
+/home/danny/github-danny/sparqlpress/docs/postcraft/content-raw
+/home/danny/github-danny/foaf-retro/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/ns/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/farelo/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/tbox/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/open-world-interface/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/kia/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/hyperdata-desktop/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/progressive-scraper/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/sheltopusik/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/packages/server/docs/postcraft/content-raw
+/home/danny/github-danny/hyperdata/docs/postcraft/content-raw
+/home/danny/github-danny/server/docs/postcraft/content-raw
+</code></pre>
+
+</article>
+<em>2024-10-30</em>
+        <div class="entry-footer">
+            <h2>About</h2>
+            
+        </div>
+    </body>
+</html>
