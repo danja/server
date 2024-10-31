@@ -59,8 +59,54 @@
 <p>and a <em>partial</em> :</p>
 <pre><code>/home/danny/github-danny/hyperdata/workspaces/hyperdata/articles/vocbench-explore
 </code></pre>
-<p>First the dirty script :</p>
-<p> let me have a look at the <code>manifest.ttl</code> for each of those.</p>
+<p>First the dirty script (<code>/home/danny/github-danny/server/deploy/deploy.sh</code>)</p>
+<pre><code class="language-sh">cd ~/github-danny/transmissions
+
+./trans postcraft ../server/docs/postcraft # typical
+./trans postcraft docs/postcraft # for transmissions, it&#39;s already in the root dir
+./trans postcraft ../hyperdata/docs/postcraft # contains the partial
+</code></pre>
+<p>Weird, the last one of those breaks with:</p>
+<pre><code class="language-sh">TypeError: Cannot create property &#39;counter&#39; on string &#39;progressive-scraper&#39;
+    at DirWalker.emitThem (file:///home/danny/github-danny/transmissions/src/processors/fs/DirWalker.js:54:25)
+</code></pre>
+<p>Ok, to push them towards the right destination, let me have a look at the <code>manifest.ttl</code> for each of those.</p>
+<p>ew, <code>/home/danny/github-danny/server/docs/postcraft/manifest.ttl</code>, copied from the current version in use at <code>danny.ayers.name</code> is <em>pug-fucking-ugly</em>!! (Henceforth, <strong>#:pfugly</strong>)</p>
+<p>Oh, maybe not too bad :</p>
+<pre><code class="language-turtle"># POST PAGES
+t:PostPages a pc:ContentGroup ;
+    pc:site &lt;https://danny.ayers.name&gt; ;
+    fs:targetDirectory &quot;public/entries&quot; ;
+    pc:template &quot;layouts/mediocre/templates/entry-page_template.njk&quot; .
+</code></pre>
+<blockquote>
+<p>Funny, I&#39;ve a vague memory of asking on one of the lists about block comments in Turtle (or maybe even N3, in the Apochelonos Era). I believe <a href="https://www.w3.org/People/Berners-Lee/">timbl</a> responded by words to the effect of : &quot;if it&#39;s long enough to need more than a line, then it&#39;s worth expressing in the RDF itself&quot;. Ok, but right now I want to comment out a big block in this manifest, see if anything breaks. I guess that&#39;s a UI thing.</p>
+</blockquote>
+<p>#:todo implement block comment UI for Turtle in VSCode/#:hyperdata-desktop #:yak</p>
+<p>So now :
+<code>/home/danny/github-danny/server/docs/postcraft/manifest.ttl</code></p>
+<pre><code class="language-turtle"># POST PAGES
+t:PostPages a pc:ContentGroup ;
+    pc:site &lt;https://danny.ayers.name&gt; ;
+    fs:targetDirectory &quot;/home/danny/github-danny/server/2024/hyperdata.it/postcrafts/server/entries&quot; ;
+    pc:template &quot;layouts/mediocre/templates/entry-page_template.njk&quot; .
+</code></pre>
+<p>Go :</p>
+<pre><code class="language-sh"> ./trans postcraft ../server/docs/postcraft
+
+ ...
+- FileWriter writing : ../server/docs/postcraft//home/danny/github-danny/server/2024/hyperdata.it/postcrafts/server/entries/server-setup_2024-10-19.html
+- FileWriter writing : ../server/docs/postcraft/cache/server-setup_2024-10-19.html
+FileWriter.execute error : ENOENT: no such file or directory, open &#39;../server/docs/postcraft//home/danny/github-danny/server/2024/hyperdata.it/postcrafts/server/entries/server-setup_2024-10-19.html&#39;
+| Running :  (s10.s20.s30.s40.s50.s60.s70.s80.s90.s100.s110.s120.s130.s140) s150 a Unfork
+- Unfork terminating pipe
+| Running :  (s10.s20.s30.s40.s50.s60.s70.s80.s90.s100.s110) s120 a EntryContentToPagePrep
+| Running :  (s10.s20.s30.s40.s50.s60.s70.s80.s90.s100.s110.s120) s130 a Templater
+| Running :  (s10.s20.s30.s40.s50.s60.s70.s80.s90.s100.s110.s120.s130) s140 a FileWriter
+- FileWriter writing : ../server/docs/postcraft/cache/server-setup_2024-10-19.html
+...
+</code></pre>
+<p>Hmm.</p>
 <hr>
 <p>/home/danny/github-danny/foaf-retro</p>
 <pre><code class="language-sh">cd ~/github-danny/transmissions/
@@ -94,7 +140,7 @@
 </code></pre>
 
 </article>
-<em>2024-10-30</em>
+<em>2024-10-31</em>
         <div class="entry-footer">
             <h2>About</h2>
             
