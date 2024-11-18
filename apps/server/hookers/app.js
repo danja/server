@@ -5,26 +5,28 @@ const basicAuth = require('express-basic-auth');
 const app = express();
 app.use(express.json());
 
-// Basic auth middleware
 app.use(basicAuth({
-    users: { 'webhook': process.env.PUNTER_PASS || 'tennants' },
-    challenge: true
+    users: { [process.env.PUNTER || 'john']: process.env.PUNTER_PASS || 'tennants' }
 }));
 
-const REPO_PATH = '/home/www/danny.ayers.name';
-
 app.post('/cathouse', (req, res) => {
+    console.log('Received request:', req.body);  // Debug log
+
     if (req.body.command !== 'pull') {
-        return res.status(400).json({ error: 'Invalid command' });
+        return res.json({ error: 'Invalid command' });
     }
 
-    exec(`cd ${REPO_PATH} && git pull`, (error, stdout, stderr) => {
+    exec('cd /home/www/danny.ayers.name && git pull', (error, stdout, stderr) => {
         if (error) {
-            console.error(`Error: ${error}`);
-            return res.status(500).json({ error: 'Command execution failed' });
+            console.error('Error:', error);
+            return res.json({ error: error.message });
         }
-        res.json({ status: 'success', output: stdout });
+        res.json({
+            status: 'success',
+            output: stdout,
+            error: stderr
+        });
     });
 });
 
-app.listen(3040, '127.0.0.1');
+app.listen(3040, '127.0.0.1', () => console.log('Service running on 3040'));
