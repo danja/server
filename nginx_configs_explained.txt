@@ -1,0 +1,592 @@
+=== Nginx Configuration Analysis ===
+Generated: 2024-11-18 19:54:40.066397
+
+
+==================================================
+File: hyperdata.it.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name hyperdata.it;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/www/hyperdata.it;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+FILE SERVING CONFIG: autoindex on;
+BLOCK END: }
+
+
+BLOCK START: location /users/ {
+PROXY DESTINATION: proxy_pass http://localhost:3050/;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/hyperdata.it/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/hyperdata.it/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: access_log /var/log/nginx/access.log combined;server {
+
+BLOCK START: if ($host = hyperdata.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name hyperdata.it;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+==================================================
+File: ps.strandz.it.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name ps.strandz.it;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/github/strandz/docs/strandz.it/public/home;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+DIRECTIVE: try_files $uri $uri/ =404;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl;
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/ps.strandz.it/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/ps.strandz.it/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf;
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = ps.strandz.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: }
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name ps.strandz.it;
+DIRECTIVE: return 404;
+BLOCK END: }
+
+
+==================================================
+File: fuseki.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name fuseki.hyperdata.it;
+# 3331
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:3331;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/danny.ayers.name/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/danny.ayers.name/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = fuseki.hyperdata.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name fuseki.hyperdata.it;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+==================================================
+File: xmpp.hyperdata.it.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name xmpp.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/xmpp.hyperdata.it/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/xmpp.hyperdata.it/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = xmpp.hyperdata.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DOMAIN CONFIGURATION: server_name xmpp.hyperdata.it;
+DIRECTIVE: listen 80;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name chat.hyperdata.it;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/www/xmpp/chat;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+DIRECTIVE: try_files $uri $uri/ =404;
+BLOCK END: }
+
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name conference.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name proxy.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name pubsub.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name upload.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+#############################
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name conference.xmpp.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name proxy.xmpp.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name pubsub.xmpp.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+
+BLOCK START: server {
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name upload.xmpp.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:5280;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+BLOCK END: }
+
+
+==================================================
+File: danny.ayers.name.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name danny.ayers.name;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/www/danny.ayers.name;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+FILE SERVING CONFIG: autoindex on;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/danny.ayers.name/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/danny.ayers.name/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = danny.ayers.name) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DOMAIN CONFIGURATION: server_name danny.ayers.name;
+DIRECTIVE: listen 80;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+==================================================
+File: kia.hyperdata.it.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name kia.hyperdata.it;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/www/kia;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+DIRECTIVE: try_files $uri $uri/ =404;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/kia.hyperdata.it/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/kia.hyperdata.it/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = kia.hyperdata.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name kia.hyperdata.it;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+==================================================
+File: elfquake.org.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name elfquake.org;
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/www/elfquake.org;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+FILE SERVING CONFIG: autoindex on;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/danny.ayers.name/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/danny.ayers.name/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = elfquake.org) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name elfquake.org;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+==================================================
+File: strandz.it.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name strandz.it;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/www/strandz.it;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+FILE SERVING CONFIG: autoindex on;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/danny.ayers.name/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/danny.ayers.name/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+DIRECTIVE: access_log /var/log/nginx/access.log combined;
+
+BLOCK START: server {
+
+BLOCK START: if ($host = strandz.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name strandz.it;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+==================================================
+File: solid.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name solid.hyperdata.it;
+
+BLOCK START: location / {
+PROXY DESTINATION: proxy_pass http://127.0.0.1:3330;
+DIRECTIVE: proxy_set_header Host $host;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl; # managed by Certbot
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/solid.hyperdata.it/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/solid.hyperdata.it/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = solid.hyperdata.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: } # managed by Certbot
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name solid.hyperdata.it;
+DIRECTIVE: return 404; # managed by Certbot
+BLOCK END: }
+
+
+==================================================
+File: nginx_config_analyzer.py
+==================================================
+
+#!/usr/bin/env python3
+DIRECTIVE: import os
+DIRECTIVE: from datetime import datetime
+DIRECTIVE: import sys
+DIRECTIVE: def analyze_nginx_configs():
+DIRECTIVE: output_file = 'nginx_configs_explained.txt'
+DIRECTIVE: nginx_path = '/etc/nginx/sites-enabled'
+DIRECTIVE: if not os.path.exists(nginx_path):
+
+BLOCK START: print(f"Error: Directory {nginx_path} not found")
+DIRECTIVE: sys.exit(1)
+
+BLOCK START: print(f"Starting analysis of configs in {nginx_path}")
+# Exclude our output file from processing
+DIRECTIVE: config_files = [f for f in os.listdir(nginx_path)
+DIRECTIVE: if os.path.isfile(os.path.join(nginx_path, f))
+DIRECTIVE: and f != output_file
+DIRECTIVE: and not f.startswith('.')]  # Also exclude hidden files
+DIRECTIVE: total_files = len(config_files)
+
+BLOCK START: print(f"Found {total_files} configuration files")
+DIRECTIVE: with open(output_file, 'w') as outfile:
+
+BLOCK START: outfile.write(f"=== Nginx Configuration Analysis ===\nGenerated: {datetime.now()}\n\n")
+FILE SERVING CONFIG: for index, filename in enumerate(config_files, 1):
+
+BLOCK START: print(f"Processing file {index}/{total_files}: {filename}")
+DIRECTIVE: filepath = os.path.join(nginx_path, filename)
+
+BLOCK START: outfile.write(f"\n{'='*50}\n")
+
+BLOCK START: outfile.write(f"File: {filename}\n")
+
+BLOCK START: outfile.write(f"{'='*50}\n\n")
+DIRECTIVE: try:
+DIRECTIVE: with open(filepath, 'r') as infile:
+DIRECTIVE: line_count = 0
+DIRECTIVE: for line in infile:
+DIRECTIVE: line = line.strip()
+DIRECTIVE: line_count += 1
+DIRECTIVE: if line:
+DIRECTIVE: if line.startswith('#'):
+
+BLOCK START: outfile.write(f"{line}\n")
+
+BLOCK START: elif '{' in line:
+
+BLOCK START: outfile.write(f"\nBLOCK START: {line}\n")
+BLOCK END: elif '}' in line:
+
+
+BLOCK START: outfile.write(f"BLOCK END: {line}\n\n")
+DOMAIN CONFIGURATION: elif 'server_name' in line:
+
+BLOCK START: outfile.write(f"DOMAIN CONFIGURATION: {line}\n")
+
+ROUTE CONFIGURATION: elif 'location' in line:
+
+BLOCK START: outfile.write(f"\nROUTE CONFIGURATION: {line}\n")
+PROXY DESTINATION: elif 'proxy_pass' in line:
+
+BLOCK START: outfile.write(f"PROXY DESTINATION: {line}\n")
+FILE SERVING CONFIG: elif 'root' in line or 'index' in line:
+
+BLOCK START: outfile.write(f"FILE SERVING CONFIG: {line}\n")
+DIRECTIVE: else:
+
+BLOCK START: outfile.write(f"DIRECTIVE: {line}\n")
+
+BLOCK START: print(f"Processed {line_count} lines in {filename}")
+DIRECTIVE: except Exception as e:
+
+BLOCK START: print(f"Error processing {filename}: {str(e)}")
+DIRECTIVE: continue
+
+BLOCK START: print(f"\nAnalysis complete. Output written to {output_file}")
+DIRECTIVE: if __name__ == "__main__":
+DIRECTIVE: analyze_nginx_configs()
+
+==================================================
+File: foaf-retro.hyperdata.it.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name foaf-retro.hyperdata.it;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/github/foaf-retro/docs/postcraft/public/home;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+DIRECTIVE: try_files $uri $uri/ =404;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl;
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/ps.strandz.it/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/ps.strandz.it/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf;
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = foaf-retro.hyperdata.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: }
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name foaf-retro.hyperdata.it;
+DIRECTIVE: return 404;
+BLOCK END: }
+
+
+==================================================
+File: ps.hyperdata.it.conf
+==================================================
+
+
+BLOCK START: server {
+DOMAIN CONFIGURATION: server_name ps.hyperdata.it;
+# Hide nginx version
+DIRECTIVE: server_tokens off;
+
+BLOCK START: location / {
+FILE SERVING CONFIG: root /home/github/hyperdata/docs/ps.hyperdata.it/public/home;
+FILE SERVING CONFIG: index index.html index.htm index.ttl;
+DIRECTIVE: try_files $uri $uri/ =404;
+BLOCK END: }
+
+DIRECTIVE: listen 443 ssl;
+DIRECTIVE: ssl_certificate /etc/letsencrypt/live/ps.strandz.it/fullchain.pem; # managed by Certbot
+DIRECTIVE: ssl_certificate_key /etc/letsencrypt/live/ps.strandz.it/privkey.pem; # managed by Certbot
+DIRECTIVE: include /etc/letsencrypt/options-ssl-nginx.conf;
+DIRECTIVE: ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+BLOCK END: }
+
+
+BLOCK START: server {
+
+BLOCK START: if ($host = ps.hyperdata.it) {
+DIRECTIVE: return 301 https://$host$request_uri;
+BLOCK END: }
+
+DIRECTIVE: listen 80;
+DOMAIN CONFIGURATION: server_name ps.hyperdata.it;
+DIRECTIVE: return 404;
+BLOCK END: }
+
