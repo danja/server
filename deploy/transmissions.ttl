@@ -14,7 +14,7 @@
 :UF a :Unfork . # collapses all pipes but one 
 #############################################################
 
-:server a trm:Pipeline ;
+:server a trm:Transmission ;
     trm:pipe (:SM :p10 :SM1) .
 
 :p10 a :DatasetReader . 

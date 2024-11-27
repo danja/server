@@ -12,7 +12,7 @@
 #############################################################
 
 
-:postcraft_init a trm:Pipeline ;
+:postcraft_init a trm:Transmission ;
     trm:pipe (:s1) .
 
 :s1 a :FileCopy ;
